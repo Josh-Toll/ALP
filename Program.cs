@@ -24,15 +24,15 @@ class Program : Cell
 				heaviestOEM = key;
 			}
 		}
-		//Console.WriteLine($"Company: {heaviestOEM} \nAverage Weight: {maxWeight}g\n");
+		Console.WriteLine($"Company: {heaviestOEM} \nAverage Weight: {maxWeight}g\n");
 
-		//List<Cell> lateReleases = program.FindLateReleases(cells);
-		//foreach(var cell in lateReleases)
-		//{
-		//Console.WriteLine($"Model: {cell.model} \nOEM: {cell.oem}");
-		//}
+		List<Cell> lateReleases = program.FindLateReleases(cells);
+		foreach(var cell in lateReleases)
+		{
+		Console.WriteLine($"Model: {cell.model} OEM: {cell.oem}");
+		}
 
-		//Console.WriteLine($"There are {program.FindOneFeatureSensor(cells)} phones with 1 feature sensor");
+		Console.WriteLine($"There are {program.FindOneFeatureSensor(cells)} phones with 1 feature sensor");
 
 		Console.WriteLine($"The most phones were launched in the year {program.FindMostPhones(cells)}");
 
