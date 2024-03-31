@@ -4,8 +4,9 @@ using CsvHelper.Configuration.Attributes;
 using System;
 using System.Text.RegularExpressions;
 using System.Runtime.CompilerServices;
+using System.Reflection.Metadata.Ecma335;
 
-public class Cell 
+public class Cell
 {
 	public string? oem { get; set; }
 	public string? model { get; set; }
@@ -22,10 +23,10 @@ public class Cell
 
 	// Cell columns after type conversion
 	public int? launch_announced_int { get; set; }
-	public float? body_weight_float { get; set; }
-	public float? display_size_float { get; set; }
-	public int? launch_year { get; set; }
-
+	public float? body_weight_float;
+	public float? display_size_float;
+	public int launch_year = 0; // launch_year of 0 means that it was never released
+	public List<string> features_sensors_list = [];
 
 
 	// Data Transformation
@@ -86,12 +87,11 @@ public class Cell
 		if(this.launch_announced != null && !regex.IsMatch(this.launch_announced))
 		{
 			//Console.WriteLine($"Invalid announcement date for phone of model: {this.model}");
-			//Console.WriteLine(this.launch_announced);
 			this.launch_announced = null;
 		}
 
 		// Change date to integer for calculations
-		try
+		if(this.launch_announced != null)
 		{
 			MatchCollection matches = Regex.Matches(this.launch_announced, @"\b\d{4}\b");
 			foreach (Match match in matches)
@@ -104,9 +104,6 @@ public class Cell
 					}
 				}
 			}
-		} catch 
-		{
-			Console.WriteLine("launch_announced is null");
 		}
 
 
@@ -114,6 +111,7 @@ public class Cell
 		{
 			Console.WriteLine($"Invalid launch status for phone of model: {this.model}");
 			this.launch_status = null;
+			this.launch_year = 0;
 		}
 
 
@@ -191,5 +189,13 @@ public class Cell
 			this.platform_os = null;
 		}
 
+		// Create a list of features
+		if(this.features_sensors!= null)
+		{
+			foreach (var item in this.features_sensors.Split(','))
+			{
+				features_sensors_list.Add(item);
+			}
+		}
 	}
 }
