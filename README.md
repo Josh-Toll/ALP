@@ -18,8 +18,7 @@
 
 CsvHelper: This library reads Csv files and can use a ClassMap to map the values in the CSV file directly to a class.
 System.Text.RegularExpressions: This is Regex in C#, it can be used to find specific pattern in a string.
-
-System.Linq: Language-Integrated Query - Turns a query into a first-class language construct that you can perform operations on, regardless of data type. in this project, it is used to average values in a list.
+System.Linq (Language-Integrated Query): Turns a query into a first-class language construct that you can perform operations on, regardless of data type. in this project, it is used to average values in a list.
 
 Answer the following questions (and provide a corresponding screen showing output answering them):
 
