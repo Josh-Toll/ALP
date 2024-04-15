@@ -2,8 +2,6 @@
  Alternate Language Project
 
 
- Libraries used: CsvHelper; System.Text.RegularExpressions(Regex);
-
 1) Which programming language and version did you pick?
 	C#
 
