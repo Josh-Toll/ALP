@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Aes\\Desktop\\Fall_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj": {}
+    "C:\\Users\\Aes\\Desktop\\Spring_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Aes\\Desktop\\Fall_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj": {
+    "C:\\Users\\Aes\\Desktop\\Spring_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Aes\\Desktop\\Fall_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj",
+        "projectUniqueName": "C:\\Users\\Aes\\Desktop\\Spring_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj",
         "projectName": "ALP",
-        "projectPath": "C:\\Users\\Aes\\Desktop\\Fall_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj",
+        "projectPath": "C:\\Users\\Aes\\Desktop\\Spring_2024\\Programming Languages\\ALP3\\ALP\\ALP.csproj",
         "packagesPath": "C:\\Users\\Aes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Aes\\Desktop\\Fall_2024\\Programming Languages\\ALP3\\ALP\\obj\\",
+        "outputPath": "C:\\Users\\Aes\\Desktop\\Spring_2024\\Programming Languages\\ALP3\\ALP\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -62,7 +62,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.3, )",
+              "version": "[8.0.4, )",
               "autoReferenced": true
             }
           },
@@ -88,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -84,14 +84,14 @@ public class Cell
 
 		// Check date format
 		Regex regex = new Regex(@"\b\d{4}\b|Discontinued|Cancelled");
-		if(this.launch_announced != null && !regex.IsMatch(this.launch_announced))
+		if (this.launch_announced != null && !regex.IsMatch(this.launch_announced))
 		{
 			//Console.WriteLine($"Invalid announcement date for phone of model: {this.model}");
 			this.launch_announced = null;
 		}
 
 		// Change date to integer for calculations
-		if(this.launch_announced != null)
+		if (this.launch_announced != null)
 		{
 			MatchCollection matches = Regex.Matches(this.launch_announced, @"\b\d{4}\b");
 			foreach (Match match in matches)
@@ -116,7 +116,7 @@ public class Cell
 
 
 		// Find the year an item was/will be released
-		if(this.launch_status != null && this.launch_status != "Discontinued" && this.launch_status != "Cancelled")
+		if (this.launch_status != null && this.launch_status != "Discontinued" && this.launch_status != "Cancelled")
 		{
 			string pattern = @"\d\d\d\d";
 			MatchCollection matches = Regex.Matches(this.launch_status, pattern);
@@ -135,15 +135,15 @@ public class Cell
 
 		// Convert body_weight
 		regex = new Regex(@"(\d+(\.\d+)?)\s*g");
-		if(this.body_weight != null && !regex.IsMatch(this.body_weight))
+		if (this.body_weight != null && !regex.IsMatch(this.body_weight))
 		{
 			//Console.WriteLine($"Invalid body weight for phone of model: {this.model}");
 			this.body_weight = null;
 		}
-		else if(this.body_weight != null)
+		else if (this.body_weight != null)
 		{
 			int index = this.body_weight.IndexOfAny(new char[] { ' ', 'g' });
-			if(index > 0) 
+			if (index > 0)
 			{
 				string weightString = this.body_weight.Substring(0, index);
 				this.body_weight_float = float.Parse(weightString);
@@ -151,7 +151,7 @@ public class Cell
 		}
 
 		// Check body_sim validity
-		if(this.body_sim == "No" || this.body_sim == "Yes" || this.body_sim == "no" || this.body_sim == "yes")
+		if (this.body_sim == "No" || this.body_sim == "Yes" || this.body_sim == "no" || this.body_sim == "yes")
 		{
 			//Console.WriteLine($"Invalid body sim for phone of model: {this.model}");
 			this.body_sim = null;
@@ -190,12 +190,18 @@ public class Cell
 		}
 
 		// Create a list of features
-		if(this.features_sensors!= null)
+		if (this.features_sensors != null)
 		{
 			foreach (var item in this.features_sensors.Split(','))
 			{
 				features_sensors_list.Add(item);
 			}
 		}
+	}
+
+	// Output Cell
+	public void Output()
+	{
+		Console.WriteLine($"OEM - {this.oem}, Model - {this.model}, Body Weight - {this.body_weight_float}, Display Size - {this.display_size_float}, Launch Announced - {this.launch_announced_int}, Launch Year - {this.launch_year}, Body Dimensions - {this.body_dimensions}, Body Sim - {this.body_sim}, Display Type - {this.display_type}, Display Resolution - {this.display_resolution}, Features Sensors - {this.features_sensors}, Platform OS - {this.platform_os}");
 	}
 }
