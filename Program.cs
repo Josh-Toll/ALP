@@ -12,8 +12,16 @@ class Program : Cell
 	{
 		Program program = new Program();
 		List<Cell> cells;
-		cells = program.ReadCSVFile("C:\\Users\\Aes\\Desktop\\Spring_2024\\Programming Languages\\ALP3\\ALP\\cells.csv");
-
+		Console.WriteLine("Enter the path of the csv file: ");
+		string? file_path = Console.ReadLine();
+		try
+		{
+			cells = program.ReadCSVFile(file_path);
+		} catch
+		{
+			Console.WriteLine($"Error: no file of the propper form found at {file_path}"); 
+			return;
+		}
 		// Calculate Average weight for each OEM
 		Dictionary<string, float?> averageWeightDict = program.CalculateAverageWeight(cells);
 		float? maxWeight = 0;
@@ -38,10 +46,10 @@ class Program : Cell
 		}
 
 		// Find phones with 1 feature sensor
-		Console.WriteLine($"There are {program.FindOneFeatureSensor(cells)} phones with 1 feature sensor");
+		Console.WriteLine($"\nThere are {program.FindOneFeatureSensor(cells)} phones with 1 feature sensor");
 
 		// Find what year had the most phones release after 1999
-		Console.WriteLine($"The most phones were launched in the year {program.FindMostPhones(cells)}");
+		Console.WriteLine($"\nThe most phones were launched in the year {program.FindMostPhones(cells)}");
 
 	}
 
