@@ -199,9 +199,150 @@ public class Cell
 		}
 	}
 
+	// Constructor function
+
+
 	// Output Cell
 	public void Output()
 	{
 		Console.WriteLine($"OEM - {this.oem}, Model - {this.model}, Body Weight - {this.body_weight_float}, Display Size - {this.display_size_float}, Launch Announced - {this.launch_announced_int}, Launch Year - {this.launch_year}, Body Dimensions - {this.body_dimensions}, Body Sim - {this.body_sim}, Display Type - {this.display_type}, Display Resolution - {this.display_resolution}, Features Sensors - {this.features_sensors}, Platform OS - {this.platform_os}");
+	}
+
+	// Utility Functions
+	public static Dictionary<string, float?> CalculateAverageWeight(List<Cell> cellList)
+	{
+		Dictionary<string, List<float?>> oemWeightDict = new Dictionary<string, List<float?>>();
+		foreach (var cell in cellList)
+		{
+			// Add the company and weight of the current phone to the dictionary
+			if (oemWeightDict.ContainsKey(cell.oem))
+			{
+				oemWeightDict[cell.oem].Add(cell.body_weight_float);
+			}
+			// If the company is already in the dictionary, add the weight of the current phone to the list for that particular OEM
+			else
+			{
+				oemWeightDict.Add(cell.oem, [cell.body_weight_float]);
+			}
+		}
+		Dictionary<string, float?> averageWeightDict = new Dictionary<string, float?>();
+		foreach (string key in oemWeightDict.Keys)
+		{
+			averageWeightDict.Add(key, oemWeightDict[key].Average());
+		}
+		return averageWeightDict;
+	}
+
+	public static List<Cell> FindLateReleases(List<Cell> cellList)
+	{
+		List<Cell> lateReleases = new List<Cell>();
+		foreach (var cell in cellList)
+		{
+			if (cell.launch_announced_int != null && cell.launch_year != 0)
+			{
+				// Find phones where the launch_announced and launc_year are different
+				if (cell.launch_announced_int != cell.launch_year)
+				{
+					lateReleases.Add(cell);
+				}
+			}
+		}
+		return lateReleases;
+	}
+
+	public static int FindOneFeatureSensor(List<Cell> cellList)
+	{
+		int numOneSensor = 0;
+		foreach (var cell in cellList)
+		{
+			// Find the number of phones with only 1 feature sensor
+			if (cell.features_sensors_list.Count > 1)
+			{
+				numOneSensor++;
+			}
+		}
+		return numOneSensor;
+	}
+
+	public static int FindMostPhones(List<Cell> cellList)
+	{
+		int mostLaunched = 0;
+		int year = 0;
+		// Create a dictionary of the form {year: number_of_phones}
+		Dictionary<int, int> years = new Dictionary<int, int>();
+		foreach (var cell in cellList)
+		{
+			if (cell.launch_year > 1999 && !years.ContainsKey(cell.launch_year))
+			{
+				years.Add(cell.launch_year, 1);
+			}
+			else if (cell.launch_year > 1999)
+			{
+				years[cell.launch_year]++;
+			}
+		}
+		// Iterate through the dictionary to find the year with the highest value
+		foreach (int num in years.Keys)
+		{
+			if (years[num] > mostLaunched)
+			{
+				mostLaunched = years[num];
+				year = num;
+			}
+		}
+		return year;
+	}
+
+	public static Dictionary<string, List<string>> FindUniqueValues(List<Cell> cellList)
+	{
+		Dictionary<string, List<string>> uniqueValues = new Dictionary<string, List<string>>{{ "OEM", new List<string>() },{ "Model", new List<string>() },{ "Launch Announced", new List<string>() },{ "Launch Year", new List<string>() },{ "Body Dimensions", new List<string>() },{ "Body Weight", new List<string>() },{ "Body SIM", new List<string>() },{ "Display Type", new List<string>() },{ "Display Size", new List<string>() },{ "Display Resolution", new List<string>() },{ "Platform OS", new List<string>() }};
+		foreach (var cell in cellList)
+		{
+			if (!uniqueValues["OEM"].Contains(cell.oem))
+			{
+				uniqueValues["OEM"].Add(cell.oem);
+			}
+			if (!uniqueValues["Model"].Contains(cell.model))
+			{
+				uniqueValues["Model"].Add(cell.model);
+			}
+			if (!uniqueValues["Launch Announced"].Contains(cell.launch_announced_int.ToString()))
+			{
+				uniqueValues["Launch Announced"].Add(cell.launch_announced_int.ToString());
+			}
+			if (!uniqueValues["Launch Year"].Contains(cell.launch_year.ToString()))
+			{
+				uniqueValues["Launch Year"].Add(cell.launch_year.ToString());
+			}
+			if (!uniqueValues["Body Dimensions"].Contains(cell.body_dimensions))
+			{
+				uniqueValues["Body Dimensions"].Add(cell.body_dimensions);
+			}
+			if (!uniqueValues["Body Weight"].Contains(cell.body_weight_float.ToString()))
+			{
+				uniqueValues["Body Weight"].Add(cell.body_weight_float.ToString());
+			}
+			if (!uniqueValues["Body SIM"].Contains(cell.body_sim))
+			{
+				uniqueValues["Body SIM"].Add(cell.body_sim);
+			}
+			if (!uniqueValues["Display Type"].Contains(cell.display_type))
+			{
+				uniqueValues["Display Type"].Add(cell.display_type);
+			}
+			if (!uniqueValues["Display Size"].Contains(cell.display_size_float.ToString()))
+			{
+				uniqueValues["Display Size"].Add(cell.display_size_float.ToString());
+			}
+			if (!uniqueValues["Display Resolution"].Contains(cell.display_resolution))
+			{
+				uniqueValues["Display Resolution"].Add(cell.display_resolution);
+			}
+			if (!uniqueValues["Platform OS"].Contains(cell.platform_os))
+			{
+				uniqueValues["Platform OS"].Add(cell.platform_os);
+			}
+		}
+		return uniqueValues;
 	}
 }
