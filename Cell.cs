@@ -202,35 +202,34 @@ public class Cell
 	// Constructor functions
 	public Cell()
 	{
-	this.oem = null;
-	this.model = null;
-	this.launch_announced = null;
-	this.launch_status = null;
-	this.body_dimensions = null;
-	this.body_weight = null;
-	this.body_sim = null;
-	this.display_type = null;
-	this.display_size = null;
-	this.display_resolution = null;
-	this.features_sensors = null;
-	this.platform_os = null;
-
+		this.oem = null;
+		this.model = null;
+		this.launch_announced = null;
+		this.launch_status = null;
+		this.body_dimensions = null;
+		this.body_weight = null;
+		this.body_sim = null;
+		this.display_type = null;
+		this.display_size = null;
+		this.display_resolution = null;
+		this.features_sensors = null;
+		this.platform_os = null;
+	
 	}
 
-	public Cell(string? oem, string? model, string? launch_announced, string? launch_status, string? body_dimensions, string? body_weight, string? body_sim, string? display_type, string? display_size, string? display_resolution, string? features_sensors, string? platform_os)
-	{
-	this.oem = oem;
-	this.model = model;
-	this.launch_announced = launch_announced;
-	this.launch_status = launch_status;
-	this.body_dimensions = body_dimensions;
-	this.body_weight = body_weight;
-	this.body_sim = body_sim;
-	this.display_type = display_type;
-	this.display_size = display_size;
-	this.display_resolution = display_resolution;
-	this.features_sensors = features_sensors;
-	this.platform_os = platform_os;
+	public Cell(string? oem, string? model, string? launch_announced, string? launch_status, string? body_dimensions, string? body_weight, string? body_sim, string? display_type, string? display_size, string? display_resolution, string? features_sensors, string? platform_os){
+		this.oem = oem;
+		this.model = model;
+		this.launch_announced = launch_announced;
+		this.launch_status = launch_status;
+		this.body_dimensions = body_dimensions;
+		this.body_weight = body_weight;
+		this.body_sim = body_sim;
+		this.display_type = display_type;
+		this.display_size = display_size;
+		this.display_resolution = display_resolution;
+		this.features_sensors = features_sensors;
+		this.platform_os = platform_os;
 	}
 
 	// Output Cell
