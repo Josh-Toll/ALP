@@ -12,36 +12,58 @@ class Program : Cell
 	{
 		Program program = new Program();
 		List<Cell> cells;
-		cells = program.ReadCSVFile("C:\\Users\\Aes\\Desktop\\Spring_2024\\Programming Languages\\ALP3\\ALP\\cells.csv");
-
+		Console.WriteLine("Enter the path of the csv file: ");
+		string? file_path = Console.ReadLine();
+		try
+		{
+			cells = program.ReadCSVFile(file_path);
+		} catch
+		{
+			Console.WriteLine($"Error: no file of the propper form found at {file_path}"); 
+			return;
+		}
 		// Calculate Average weight for each OEM
-		Dictionary<string, float?> averageWeightDict = program.CalculateAverageWeight(cells);
+		Dictionary<string, float?> averageWeightDict = CalculateAverageWeight(cells);
 		float? maxWeight = 0;
 		string? heaviestOEM = null;
-		foreach (var key in averageWeightDict.Keys)
+		foreach (var oem in averageWeightDict.Keys)
 		{
 			// Find max weight
-			if(averageWeightDict[key] > maxWeight )
+			if (averageWeightDict[oem] > maxWeight)
 			{
-				maxWeight = averageWeightDict[key];
-				heaviestOEM = key;
+				maxWeight = averageWeightDict[oem];
+				heaviestOEM = oem;
 			}
 		}
 		// Output OEM and average weight of company with the heaviest phones
 		Console.WriteLine($"Company: {heaviestOEM} \nAverage Weight: {maxWeight}g\n");
 
 		// Find phones that were released in a later year than they were announced
-		List<Cell> lateReleases = program.FindLateReleases(cells);
+		List<Cell> lateReleases = FindLateReleases(cells);
 		foreach(var cell in lateReleases)
 		{
-		Console.WriteLine($"Model: {cell.model} OEM: {cell.oem}");
+			Console.WriteLine($"Model: {cell.model} OEM: {cell.oem}");
 		}
 
 		// Find phones with 1 feature sensor
-		Console.WriteLine($"There are {program.FindOneFeatureSensor(cells)} phones with 1 feature sensor");
+		Console.WriteLine($"\nThere are {FindOneFeatureSensor(cells)} phones with 1 feature sensor");
 
 		// Find what year had the most phones release after 1999
-		Console.WriteLine($"The most phones were launched in the year {program.FindMostPhones(cells)}");
+		Console.WriteLine($"\nThe most phones were launched in the year {FindMostPhones(cells)}");
+
+		// Output unique vaues for each attribute
+		Dictionary<string, List<string>>  uniqueValues = FindUniqueValues(cells);
+		Console.WriteLine("Which attribute would you like to find unique values for: \nOEM \nModel \nLaunch Announced \nLaunch Year \nBody Dimensions \nBody Weight \nBody SIM \nDisplay Type \nDisplay Size \nDisplay Resolution \nFeatures Sensors \nPlatform OS");
+		string? key = Console.ReadLine();
+		try
+		{
+			string values = string.Join(",", uniqueValues[key]);
+			Console.WriteLine($"{key}: {values}");
+		}
+		catch
+		{
+			Console.WriteLine("Error: Attribute not found");
+		}
 
 	}
 
@@ -72,91 +94,5 @@ class Program : Cell
 			Console.WriteLine($"Cell {i + 1}: ");
 			cell.Output();
 		}
-	}
-
-
-	// Utility Functions
-	private Dictionary<string, float?> CalculateAverageWeight(List<Cell> cellList)
-	{
-		Dictionary<string, List<float?>> oemWeightDict = new Dictionary<string, List<float?>>();
-		foreach (var cell in cellList)
-		{
-			// Add the company and weight of the current phone to the dictionary
-			if(oemWeightDict.ContainsKey(cell.oem))
-			{
-				oemWeightDict[cell.oem].Add(cell.body_weight_float);
-			}
-			// If the company is already in the dictionary, add the weight of the current phone to the list for that particular OEM
-			else
-			{
-				oemWeightDict.Add(cell.oem, [cell.body_weight_float]);
-			}
-		}
-		Dictionary<string, float?> averageWeightDict = new Dictionary<string, float?>();
-		foreach (string key in oemWeightDict.Keys)
-		{
-			averageWeightDict.Add(key, oemWeightDict[key].Average());
-		}
-		return averageWeightDict;
-	}
-
-	private List<Cell> FindLateReleases(List<Cell> cellList)
-	{
-		List<Cell> lateReleases = new List<Cell>();
-		foreach (var cell in cellList)
-		{
-			if(cell.launch_announced_int != null && cell.launch_year != 0)
-			{
-				// Find phones where the launch_announced and launc_year are different
-				if(cell.launch_announced_int != cell.launch_year)
-				{
-					lateReleases.Add(cell);
-				}
-			}
-		}
-		return lateReleases;
-	}
-
-	private int FindOneFeatureSensor(List<Cell> cellList)
-	{
-		int numOneSensor = 0;
-		foreach (var cell in cellList)
-		{
-			// Find the number of phones with only 1 feature sensor
-			if(cell.features_sensors_list.Count > 1)
-			{
-				numOneSensor++;
-			}
-		}
-		return numOneSensor;
-	}
-
-	private int FindMostPhones(List<Cell> cellList)
-	{
-		int mostLaunched = 0;
-		int year = 0;
-		// Create a dictionary of the form {year: number_of_phones}
-		Dictionary<int, int> years = new Dictionary<int, int>();
-		foreach (var cell in cellList)
-		{
-			if(cell.launch_year > 1999 && !years.ContainsKey(cell.launch_year)) 
-			{
-				years.Add(cell.launch_year, 1);
-			}
-			else if(cell.launch_year > 1999)
-			{
-				years[cell.launch_year]++;
-			}
-		}
-		// Iterate through the dictionary to find the year with the highest value
-		foreach(int num in years.Keys)
-		{
-			if (years[num] > mostLaunched)
-			{
-				mostLaunched = years[num];
-				year = num;
-			}
-		}
-		return year; 
 	}
 }
