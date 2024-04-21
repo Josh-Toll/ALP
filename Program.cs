@@ -11,15 +11,17 @@ class Program : Cell
 	static void Main()
 	{
 		Program program = new Program();
-		List<Cell> cells;
-		Console.WriteLine("Enter the path of the csv file: ");
-		string? file_path = Console.ReadLine();
+		List<Cell> cells = new List<Cell>();
+		// Change this to the file path if the file path is different from the default
+		string file_path = "cells.csv";
 		try
 		{
 			cells = program.ReadCSVFile(file_path);
-		} catch
+		}
+		catch
 		{
-			Console.WriteLine($"Error: no file of the propper form found at {file_path}"); 
+			// Change the file_path string if this event occurs
+			Console.WriteLine($"Error: {file_path} is not a valid file path");
 			return;
 		}
 		// Calculate Average weight for each OEM
@@ -40,7 +42,7 @@ class Program : Cell
 
 		// Find phones that were released in a later year than they were announced
 		List<Cell> lateReleases = FindLateReleases(cells);
-		foreach(var cell in lateReleases)
+		foreach (var cell in lateReleases)
 		{
 			Console.WriteLine($"Model: {cell.model} OEM: {cell.oem}");
 		}
@@ -49,22 +51,25 @@ class Program : Cell
 		Console.WriteLine($"\nThere are {FindOneFeatureSensor(cells)} phones with 1 feature sensor");
 
 		// Find what year had the most phones release after 1999
-		Console.WriteLine($"\nThe most phones were launched in the year {FindMostPhones(cells)}");
+		int year = FindMostPhones(cells);
+		Console.WriteLine($"\nThe most phones were launched in the year {year}");
 
 		// Output unique vaues for each attribute
-		Dictionary<string, List<string>>  uniqueValues = FindUniqueValues(cells);
-		Console.WriteLine("Which attribute would you like to find unique values for: \nOEM \nModel \nLaunch Announced \nLaunch Year \nBody Dimensions \nBody Weight \nBody SIM \nDisplay Type \nDisplay Size \nDisplay Resolution \nFeatures Sensors \nPlatform OS");
+		Dictionary<string, List<string>> uniqueValues = FindUniqueValues(cells);
+		Console.WriteLine("\nWhich attribute would you like to find unique values for: \nOEM \nModel \nLaunch Announced \nLaunch Year \nBody Dimensions \nBody Weight \nBody SIM \nDisplay Type \nDisplay Size \nDisplay Resolution \nFeatures Sensors \nPlatform OS");
 		string? key = Console.ReadLine();
-		try
+		if (key != null)
 		{
-			string values = string.Join(",", uniqueValues[key]);
-			Console.WriteLine($"{key}: {values}");
+			try
+			{
+				string values = string.Join(",", uniqueValues[key]);
+				Console.WriteLine($"{key}: {values}");
+			}
+			catch
+			{
+				Console.WriteLine("Error: Attribute not found");
+			}
 		}
-		catch
-		{
-			Console.WriteLine("Error: Attribute not found");
-		}
-
 	}
 
 	public List<Cell> ReadCSVFile(string filePath)
@@ -76,7 +81,7 @@ class Program : Cell
 		{
 			csv.Context.RegisterClassMap<CellMap>();
 
-			while(csv.Read())
+			while (csv.Read())
 			{
 				Cell record = csv.GetRecord<Cell>();
 				record.CleanCell();

@@ -23,8 +23,8 @@ public class Cell
 
 	// Cell columns after type conversion
 	public int? launch_announced_int { get; set; }
-	public float? body_weight_float;
-	public float? display_size_float;
+	public float? body_weight_float = null;
+	public float? display_size_float = null;
 	public int launch_year = 0; // launch_year of 0 means that it was never released
 	public List<string> features_sensors_list = [];
 
